@@ -1,20 +1,17 @@
-// ignore_for_file: avoid_print, unused_local_variable, unnecessary_brace_in_string_interps
+// ignore_for_file: avoid_print, unused_local_variable, unnecessary_brace_in_string_interps, non_constant_identifier_names, missing_required_param, avoid_types_as_parameter_names, avoid_function_literals_in_foreach_calls
 
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
+import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
 import 'package:ecommerceapp/dio_helper/dio_helper.dart';
-import 'package:ecommerceapp/module/product_model.dart';
 import 'package:ecommerceapp/module/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
-import 'package:collection/collection.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(HomeInitState());
@@ -74,9 +71,10 @@ class HomeCubit extends Cubit<HomeStates> {
       )
           .then((value) {
         // print("SigninSuccessState");
-        print(value.user!.uid);
 
-        emit(SigninSuccessState(uid: value.user!.uid));
+        print(value.user!.uid);
+        uid = value.user!.uid;
+        emit(SigninSuccessState(uid: uid));
 
         print("SigninSuccessState");
       }).catchError((onError) {
@@ -104,6 +102,8 @@ class HomeCubit extends Cubit<HomeStates> {
       name: name,
       email: email,
       password: password,
+      coverImage: " ",
+      profileImage: " ",
       uid: id,
     );
     FirebaseFirestore.instance
@@ -123,14 +123,10 @@ class HomeCubit extends Cubit<HomeStates> {
   void getUserData() {
     emit(GetUserDataLoadinState());
     print("GetUserDataLoadinState");
-    FirebaseFirestore.instance
-        .collection("Users")
-        .doc("sOvc8YqTzxaC18HcB3PBBtlmJRs1")
-        .get()
-        .then((value) {
+    FirebaseFirestore.instance.collection("Users").doc(uid).get().then((value) {
       userModel = UserModel.fromJson(value.data()!);
       print("getUserData ${userModel!.uid}");
-      print("getUserData ${userModel!.name}");
+      print("My Name ${userModel!.name}");
 
       emit(GetUserDataSuccessState());
       print("GetUserDataSuccessState");
@@ -194,8 +190,8 @@ class HomeCubit extends Cubit<HomeStates> {
     final converimagefile = await picker.pickImage(source: ImageSource.gallery);
     if (converimagefile != null) {
       converImage = File(converimagefile.path);
-      print("coverImageSuccessState");
       uploadCoverImage(name: name);
+      print("coverImageSuccessState");
       emit(CoverImageSuccessState());
     } else {
       // print("Not Image Selected");
@@ -248,9 +244,10 @@ class HomeCubit extends Cubit<HomeStates> {
     );
     FirebaseFirestore.instance
         .collection("Users")
-        .doc("sOvc8YqTzxaC18HcB3PBBtlmJRs1")
+        .doc(uid)
         .update(model.toMap())
         .then((value) {
+      getUserData();
       print("UpdateUserDataSuccessState");
       emit(UpdateUserDataSuccessState());
     }).catchError((onError) {
@@ -259,17 +256,20 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  ProductsModel? model;
-  // Map<String, dynamic>? list = {};
+  // ProductsModel? model;
   List products = [];
-
+  Map<int, bool>? buy = {};
   void getHomeData() {
     emit(GetHomeDataLoadinState());
     print("GetHomeDataLoadinState");
     DioHelper.getData().then((value) {
       products = value.data;
-
+      products.forEach((item) {
+        products_numbers![item["id"]] = 0;
+        buy!.addAll({item["id"]: false});
+      });
       print(products.length);
+      print("buuuuuuuuuuuuuuy  ${buy}");
 
       emit(GetHomeDataSuccessState());
       print("GetHomeDataSuccessState");
@@ -279,32 +279,36 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  // int text = products.length;
   int? sum = 0;
-  int numberText = 0;
-  Map<int, bool>? istrue = {};
-  void increasIcon(index) {
-    istrue = {products[index]["id"]: true};
-    if (products[index]["id"] == istrue) {
-      sum = (1 + numberText);
-      numberText++;
+  Map<int, int>? products_numbers = {};
+  List isbuy = [];
+  void increasIcon(
+    int id,
+  ) {
+    sum = 1 + sum!;
+    products_numbers![id] = products_numbers![id]! + 1;
+    // bool? b =
+    buy![id] = true;
+    if (buy![id] == true) {
+      isbuy.add(products[id - 1]);
       emit(IncreasSuccessState());
-    } else
-    {
-      
-      print("not increas");
     }
+
+    emit(IncreasSuccessState());
   }
 
-  // List num = [1, 2, 3, 5];
-
-  // final fixedLengthList = List<int>.filled(5, 0);
-
-  void decreasIcon() {
-    if (numberText > 0) {
-      numberText--;
+  void decreasIcon(int id) {
+    if (products_numbers![id]! > 0) {
+      products_numbers![id] = products_numbers![id]! - 1;
       sum = sum! - 1;
-      emit(IncreasSuccessState());
     }
+    emit(IncreasSuccessState());
   }
+
+  // List<dynamic> insala = [];
+  // void getSelect(int id) {
+  //   insala.add(products[id]);
+  //   emit(getSelectState());
+  //   print(insala[0]);
+  // }
 }

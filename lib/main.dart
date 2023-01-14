@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps
+// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, avoid_print, must_be_immutable, curly_braces_in_flow_control_structures
 
-import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/Screens/home_screen.dart';
 import 'package:ecommerceapp/Screens/login_screen.dart';
@@ -15,7 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  DioHelper.Init();
+  await DioHelper.Init();
+  await SharedPreference.initialSharedPreference();
 
   uid = await SharedPreference.getDataSt(key: "uid");
 
@@ -23,8 +23,7 @@ void main() async {
   Widget? firstWidget;
   if (uid != null) {
     firstWidget = HomeScreen();
-  } else if(uid == null || uid == " ")
-    firstWidget = LoginScreen();
+  } else if (uid == null ) firstWidget = LoginScreen();
 
   runApp(MyApp(
     firstWidget: firstWidget,
@@ -38,9 +37,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()
-        ..getUserData()
-        ..getHomeData(),
+      create: (context) => HomeCubit(),
+        // ..getUserData()
+        // ..getHomeData(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -48,6 +47,9 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 scaffoldBackgroundColor: kBackgroundColor,
+                appBarTheme: AppBarTheme(
+                  backgroundColor: Color.fromARGB(255, 24, 112, 70),
+                ),
                 textTheme: Theme.of(context)
                     .textTheme
                     .apply(bodyColor: kPrimaryColor)),

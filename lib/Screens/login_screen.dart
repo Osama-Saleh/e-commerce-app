@@ -30,7 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
       create: (context) => HomeCubit(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {
-          if (state is SigninSuccessState) {
+          if (state is SigninSuccessState ) {
+            
             SharedPreference.saveData(Key: "uid", value: "${state.uid}")
                 .then((value) => {
                       Fluttertoast.showToast(
@@ -191,18 +192,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                               email: emailController.text,
                                               password:
                                                   passwordController.text);
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           HomeScreen(),
-                                          //     ));
-                                          // print(
-                                          //     "GetRegiste ${HomeCubit.get(context).userModel!.email}");
-                                          // print(
-                                          //     "GetRegiste ${HomeCubit.get(context).userModel!.uid}");
-                                          // if (state is SigninSuccessState)
-                                          //   print("-----------${state.uid}");
                                         }
                                       },
                                       child: Text(

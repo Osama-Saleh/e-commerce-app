@@ -1,52 +1,27 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors
 
-class IncreaseDecreaseButton extends StatefulWidget {
+import 'package:ecommerceapp/cubit/home_cubit.dart';
+import 'package:ecommerceapp/cubit/home_state.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class TestScreen extends StatefulWidget {
   @override
-  _IncreaseDecreaseButtonState createState() => _IncreaseDecreaseButtonState();
+  _TestScreenState createState() => _TestScreenState();
 }
 
-class _IncreaseDecreaseButtonState extends State<IncreaseDecreaseButton> {
-  List<int> itemList = [0, 0, 0, 0, 0];
+class _TestScreenState extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Increase/Decrease Button'),
-        ),
-        body: GridView.builder(
-          itemCount: itemList.length,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemBuilder: (context, index) {
-            return Column(children: [
-              Text('${itemList[index]}'),
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.remove_circle_outline),
-                      onPressed: (() {
-                        setState((() {
-                          if (itemList[index] > 0) {
-                            itemList[index]--;
-                          }
-                        }));
-                      })),
-                  IconButton(
-                    icon: Icon(Icons.add_circle_outline),
-                    onPressed: (() {
-                      
-                      setState((() {
-                        // if (itemList[index] < 10) {
-                        itemList[index]++;
-                        // }
-                      }));
-                    }),
-                  ),
-                ],
-              )
-            ]);
-          },
-        ));
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(),
+          body: Text("${HomeCubit.get(context).isbuy.length}"),
+        );
+      },
+    );
   }
 }

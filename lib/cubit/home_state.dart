@@ -28,6 +28,12 @@ class SigninErrorState extends HomeStates {
   SigninErrorState(this.error);
 }
 
+// class getSelectState extends HomeStates {}
+
+// class LogoutSuccessState extends HomeStates {}
+
+// class LogoutErrorState extends HomeStates {}
+
 class CreateUserDataLoadinState extends HomeStates {}
 
 class CreateUserDataSuccessState extends HomeStates {}

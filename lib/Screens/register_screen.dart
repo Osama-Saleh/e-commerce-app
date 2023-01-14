@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, missing_required_param, sized_box_for_whitespace, avoid_print
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerceapp/Screens/login_screen.dart';
 import 'package:ecommerceapp/components/components.dart';
-import 'package:ecommerceapp/Screens/home_screen.dart';
 import 'package:ecommerceapp/cubit/home_cubit.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => LoginScreen(),
                 ));
           } else if (state is RegisterErrorState) {
             Fluttertoast.showToast(
