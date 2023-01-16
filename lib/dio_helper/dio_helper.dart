@@ -12,6 +12,7 @@ class DioHelper {
       // headers: {"Content-Type": "application/json"}
     ));
   }
+  
 
   static Future<Response> getData() async{
     return await dio.get("https://fakestoreapi.com/products");

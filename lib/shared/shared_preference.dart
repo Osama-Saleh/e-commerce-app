@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, null_check_always_fails
 
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,16 +12,19 @@ class SharedPreference {
   }
 
   static Future<bool> saveData(
-      {@required String? Key, @required String? value}) async {
-    return await sharedPreference!.setString(Key!, value!);
+      {@required String? Key, @required value}) async {
+    if (value is String) return await sharedPreference!.setString(Key!, value);
+    return await sharedPreference!.setBool(Key!, value!);
   }
 
   static String? getDataSt({@required String? key}) {
     return sharedPreference?.getString(key!);
   }
+  static bool? getDataBl({@required String? key}) {
+    return sharedPreference?.getBool(key!);
+  }
 
-static Future<bool?> removeData({@required key}) async {
+  static Future<bool?> removeData({@required key}) async {
     return await sharedPreference?.remove(key);
   }
-  
 }

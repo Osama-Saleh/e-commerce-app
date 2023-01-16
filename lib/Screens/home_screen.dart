@@ -11,67 +11,63 @@ import 'package:ecommerceapp/module/user_model.dart';
 import 'package:ecommerceapp/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit()
-        ..getUserData()
-        ..getHomeData(),
-      child: BlocConsumer<HomeCubit, HomeStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(
-                actions: [
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: CircleAvatar(
-                          radius: 12,
-                          child: Text(
-                            "${HomeCubit.get(context).sum}",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            appBar: AppBar(
+              actions: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: CircleAvatar(
+                        radius: 12,
+                        child: Text(
+                          "${HomeCubit.get(context).sum}",
+                          style: TextStyle(
+                            color: Colors.black,
                           ),
-                          backgroundColor: Colors.grey.withOpacity(.5),
                         ),
+                        backgroundColor: Colors.grey.withOpacity(.5),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BoughtScreen(),
-                              ));
-                        },
-                        icon: Icon(Icons.shopping_cart_outlined),
-                      ),
-                    ],
-                  )
-                ],
-                elevation: 0,
-              ),
-              body: ConditionalBuilder(
-                condition: true,
-                builder: (context) => buidItems(context),
-                fallback: (context) =>
-                    Center(child: CircularProgressIndicator()),
-              ),
-              drawer: myDrawer(context, HomeCubit.get(context).userModel));
-        },
-      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BoughtScreen(),
+                            ));
+                      },
+                      icon: Icon(Icons.shopping_cart_outlined),
+                    ),
+                  ],
+                )
+              ],
+              elevation: 0,
+            ),
+            body: ConditionalBuilder(
+              condition: state is GetHomeDataSuccessState,
+              builder: (context) => buidItems(context),
+              fallback: (context) => Center(child: CircularProgressIndicator()),
+            ),
+            drawer: myDrawer(context, HomeCubit.get(context).userModel));
+      },
     );
   }
 }
 
 CarouselController carouselController = CarouselController();
+final controller = PageController(viewportFraction: 0.8, keepPage: true);
 
 Widget buidItems(context) => SingleChildScrollView(
       physics: BouncingScrollPhysics(),
@@ -83,6 +79,7 @@ Widget buidItems(context) => SingleChildScrollView(
             Container(
                 height: 250,
                 child: CarouselSlider(
+                  carouselController: carouselController,
                   items: HomeCubit.get(context)
                       .products
                       .map((e) => Container(
@@ -103,11 +100,8 @@ Widget buidItems(context) => SingleChildScrollView(
                             ),
                           ))
                       .toList(),
-                  // carouselController: carouselController,
                   options: CarouselOptions(
                     initialPage: 10,
-                    // height: 180.0,
-                    // viewportFraction: 1,
                     autoPlay: true,
                     aspectRatio: 16 / 9,
                     viewportFraction: 0.8,
@@ -186,7 +180,7 @@ Widget buidItems(context) => SingleChildScrollView(
                                 height: 5,
                               ),
                               Text(
-                                "${HomeCubit.get(context).products[index]["price"]} 💲",
+                                "${HomeCubit.get(context).products[index]["price"]} 💲\$\"",
                                 style: TextStyle(color: Colors.black),
                               ),
                               SizedBox(
@@ -224,8 +218,11 @@ Widget buidItems(context) => SingleChildScrollView(
                                             //     ["id"] ==
                                             // index + 1)
                                             HomeCubit.get(context).decreasIcon(
-                                                HomeCubit.get(context)
-                                                    .products[index]["id"]);
+                                                // HomeCubit.get(context)
+                                                //     .products[index]["id"]
+                                                index+1
+                                                    );
+                                            print(HomeCubit.get(context).buy);
                                           },
                                           child: Icon(Icons.remove)),
                                     ),
@@ -271,10 +268,11 @@ Widget buidItems(context) => SingleChildScrollView(
                                             //     HomeCubit.get(context)
                                             //         .products[index]["id"]);
                                             print(HomeCubit.get(context).isbuy);
-                                            print(HomeCubit.get(context).isbuy.length);
+
+                                            print("******************");
                                             print(HomeCubit.get(context).buy);
                                             print(
-                                                "lenght${HomeCubit.get(context).isbuy.length}");
+                                                "lenght ${HomeCubit.get(context).isbuy.length}");
                                           },
                                           child: Icon(Icons.add)),
                                     ),

@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_typing_uninitialized_variables
+// ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_typing_uninitialized_variables, camel_case_types
 class HomeStates {}
 
 class HomeInitState extends HomeStates {}
@@ -88,3 +88,5 @@ class IncreasErrorState extends HomeStates {}
 class DecreasSuccessState extends HomeStates {}
 
 class DecreasErrorState extends HomeStates {}
+
+class BorderScreenState extends HomeStates {}

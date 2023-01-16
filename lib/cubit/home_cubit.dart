@@ -1,8 +1,9 @@
-// ignore_for_file: avoid_print, unused_local_variable, unnecessary_brace_in_string_interps, non_constant_identifier_names, missing_required_param, avoid_types_as_parameter_names, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_print, unused_local_variable, unnecessary_brace_in_string_interps, non_constant_identifier_names, missing_required_param, avoid_types_as_parameter_names, avoid_function_literals_in_foreach_calls, prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
 import 'package:ecommerceapp/dio_helper/dio_helper.dart';
@@ -269,7 +270,7 @@ class HomeCubit extends Cubit<HomeStates> {
         buy!.addAll({item["id"]: false});
       });
       print(products.length);
-      print("buuuuuuuuuuuuuuy  ${buy}");
+      print("buy ${buy}");
 
       emit(GetHomeDataSuccessState());
       print("GetHomeDataSuccessState");
@@ -287,28 +288,38 @@ class HomeCubit extends Cubit<HomeStates> {
   ) {
     sum = 1 + sum!;
     products_numbers![id] = products_numbers![id]! + 1;
-    // bool? b =
     buy![id] = true;
     if (buy![id] == true) {
       isbuy.add(products[id - 1]);
-      emit(IncreasSuccessState());
     }
 
-    emit(IncreasSuccessState());
+    emit(GetHomeDataSuccessState());
   }
 
   void decreasIcon(int id) {
     if (products_numbers![id]! > 0) {
       products_numbers![id] = products_numbers![id]! - 1;
       sum = sum! - 1;
+      buy![id - 1] = false;
+      if (buy![id - 1] == false) {
+        isbuy.removeAt(id - 1);
+      }
     }
-    emit(IncreasSuccessState());
+
+    emit(GetHomeDataSuccessState());
   }
 
-  // List<dynamic> insala = [];
-  // void getSelect(int id) {
-  //   insala.add(products[id]);
-  //   emit(getSelectState());
-  //   print(insala[0]);
-  // }
+  List<Image> borderImage = [
+    Image(image: AssetImage("assets/border1.png")),
+    Image(image: AssetImage("assets/border3.png")),
+    Image(image: AssetImage("assets/border2.png")),
+  ];
+  bool islast = false;
+  void borderScreen(index) {
+    if (index == borderImage.length - 1) {
+      islast = true;
+    } else
+      islast = false;
+    emit(BorderScreenState());
+  }
 }

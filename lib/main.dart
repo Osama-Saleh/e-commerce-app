@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, avoid_print, must_be_immutable, curly_braces_in_flow_control_structures
+// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, avoid_print, must_be_immutable, curly_braces_in_flow_control_structures, unused_local_variable
 
+import 'package:ecommerceapp/Screens/border_screen.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/Screens/home_screen.dart';
 import 'package:ecommerceapp/Screens/login_screen.dart';
@@ -17,13 +18,19 @@ void main() async {
   await DioHelper.Init();
   await SharedPreference.initialSharedPreference();
 
+  bool? onBorder = await SharedPreference.getDataBl(key: "onBorder");
   uid = await SharedPreference.getDataSt(key: "uid");
 
   print("My uid is  ${uid}");
+  print("onBorder  ${onBorder}");
   Widget? firstWidget;
+  if (onBorder == true) {
+    firstWidget = LoginScreen();
+  }
+
   if (uid != null) {
     firstWidget = HomeScreen();
-  } else if (uid == null ) firstWidget = LoginScreen();
+  } else if (uid == null) firstWidget = LoginScreen();
 
   runApp(MyApp(
     firstWidget: firstWidget,
@@ -37,9 +44,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
-        // ..getUserData()
-        // ..getHomeData(),
+      create: (context) => HomeCubit()
+      ..getUserData()
+      ..getHomeData(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
         builder: (context, state) {

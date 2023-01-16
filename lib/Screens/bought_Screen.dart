@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file: prefer_const_constructors, file_names, sized_box_for_whitespace
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/cubit/home_cubit.dart';
@@ -20,54 +20,73 @@ class BoughtScreen extends StatelessWidget {
               title: Text("Buy"),
             ),
             body: ConditionalBuilder(
-              condition: true,
+              condition: HomeCubit.get(context).isbuy.length > 0,
               builder: (context) {
-                return Column(
-                  children: [
-                    Container(
-                      height: 110,
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TestScreen(),
-                                ));
-                          },
-                          child: Text("test")),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          return Container(
-                            // height: 100,
-                            width: double.infinity,
-                            child: Image(
-                              // height: 100,
-                              // width: double.infinity,
-                              image: NetworkImage(
-                                  "https://thumbs.dreamstime.com/b/beautiful-landscape-dry-tree-branch-sun-flowers-field-against-colorful-evening-dusky-sky-use-as-natural-background-backdrop-48319427.jpg"),
-                              fit: BoxFit.fill,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) => SizedBox(
-                          height: 5,
-                        ),
-                        itemCount: 5,
-                      ),
-                    ),
-                  ],
-                );
+                return buildBuyItems(context);
               },
-              fallback: (context) =>
-                  Center(child: Text("${HomeCubit.get(context).isbuy.length}")),
+              fallback: (context) => Center(child: Text("No Item Selceted")),
             ));
-        ;
       },
     );
   }
+}
+
+Widget buildBuyItems(context) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              return Row(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image(
+                      image: NetworkImage(
+                          "${HomeCubit.get(context).isbuy[index]["image"]}"),
+                      fit: BoxFit.cover,
+                      height: 100,
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: Text(
+                          "${HomeCubit.get(context).isbuy[index]["title"]}",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                          "${HomeCubit.get(context).isbuy[index]["price"]} 💲"),
+                    ],
+                  ),
+                  Spacer(),
+                  Expanded(
+                    child: CircleAvatar(
+                        backgroundColor: Colors.red,
+                        child: IconButton(
+                            onPressed: () {}, icon: Icon(Icons.close))),
+                  )
+                ],
+              );
+            },
+            separatorBuilder: (context, index) => Container(
+              color: Colors.grey[600],
+              height: 1,
+            ),
+            itemCount: HomeCubit.get(context).isbuy.length,
+          ),
+        )
+      ],
+    ),
+  );
 }
