@@ -189,52 +189,49 @@ Widget buidItems(context) => SingleChildScrollView(
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  // Expanded(
+                                  //   // flex: 1,
+                                  //   child: Container(
+                                  //     height: 25,
+                                  //     clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  //     decoration: BoxDecoration(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(20)),
+                                  //     child: ElevatedButton(
+                                  //         style: ButtonStyle(
+                                  //           overlayColor: MaterialStateProperty
+                                  //               .resolveWith<Color?>(
+                                  //             (Set<MaterialState> states) {
+                                  //               if (states.contains(
+                                  //                   MaterialState.pressed))
+                                  //                 return Color.fromARGB(
+                                  //                     255,
+                                  //                     173,
+                                  //                     169,
+                                  //                     169); //<-- SEE HERE
+                                  //               return null; // Defer to the widget's default.
+                                  //             },
+                                  //           ),
+                                  //         ),
+                                  //         onPressed: () {
+                                  //           // if (HomeCubit.get(context).products[index]
+                                  //           //     ["id"] ==
+                                  //           // index + 1)
+                                  //           HomeCubit.get(context).decreasIcon(
+                                  //               HomeCubit.get(context)
+                                  //                   .products[index]["id"]
+                                  //               // index + 1
+                                  //               );
+                                  //           // HomeCubit.get(context)
+                                  //           //     .removeData(index);
+                                  //           print(HomeCubit.get(context).buy);
+                                  //         },
+                                  //         child: Icon(Icons.remove)),
+                                  //   ),
+                                  // ),
+
                                   Expanded(
-                                    // flex: 1,
-                                    child: Container(
-                                      height: 25,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: ElevatedButton(
-                                          style: ButtonStyle(
-                                            overlayColor: MaterialStateProperty
-                                                .resolveWith<Color?>(
-                                              (Set<MaterialState> states) {
-                                                if (states.contains(
-                                                    MaterialState.pressed))
-                                                  return Color.fromARGB(
-                                                      255,
-                                                      173,
-                                                      169,
-                                                      169); //<-- SEE HERE
-                                                return null; // Defer to the widget's default.
-                                              },
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            // if (HomeCubit.get(context).products[index]
-                                            //     ["id"] ==
-                                            // index + 1)
-                                            HomeCubit.get(context).decreasIcon(
-                                                // HomeCubit.get(context)
-                                                //     .products[index]["id"]
-                                                index+1
-                                                    );
-                                            print(HomeCubit.get(context).buy);
-                                          },
-                                          child: Icon(Icons.remove)),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Center(
-                                          child: Text(
-                                              "${HomeCubit.get(context).products_numbers![product["id"]]}")),
-                                    ),
-                                  ),
-                                  Expanded(
+                                    flex: 1,
                                     child: Container(
                                       height: 25,
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -274,8 +271,29 @@ Widget buidItems(context) => SingleChildScrollView(
                                             print(
                                                 "lenght ${HomeCubit.get(context).isbuy.length}");
                                           },
-                                          child: Icon(Icons.add)),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child: Text("Add"),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Icon(
+                                                Icons
+                                                    .add_shopping_cart_outlined,
+                                                size: 20,
+                                              )
+                                            ],
+                                          )),
                                     ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      child: Center(
+                                          child: Text(
+                                              "${HomeCubit.get(context).products_numbers![product["id"]]}")),
+                                    ),  
                                   ),
                                 ],
                               ),

@@ -1,9 +1,8 @@
-// ignore_for_file: avoid_print, unused_local_variable, unnecessary_brace_in_string_interps, non_constant_identifier_names, missing_required_param, avoid_types_as_parameter_names, avoid_function_literals_in_foreach_calls, prefer_const_constructors, curly_braces_in_flow_control_structures
+// ignore_for_file: avoid_print, unused_local_variable, unnecessary_brace_in_string_interps, non_constant_identifier_names, missing_required_param, avoid_types_as_parameter_names, avoid_function_literals_in_foreach_calls, prefer_const_constructors, curly_braces_in_flow_control_structures, unrelated_type_equality_checks
 
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
 import 'package:ecommerceapp/dio_helper/dio_helper.dart';
@@ -12,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
@@ -89,6 +90,32 @@ class HomeCubit extends Cubit<HomeStates> {
         print('Wrong password provided for that user.');
       }
     }
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
   void creatUserData({
@@ -283,31 +310,50 @@ class HomeCubit extends Cubit<HomeStates> {
   int? sum = 0;
   Map<int, int>? products_numbers = {};
   List isbuy = [];
+  int? count = 0;
   void increasIcon(
-    int id,
+    int index,
   ) {
-    sum = 1 + sum!;
-    products_numbers![id] = products_numbers![id]! + 1;
-    buy![id] = true;
-    if (buy![id] == true) {
-      isbuy.add(products[id - 1]);
+    if (index == products[index - 1]["id"]) {
+      sum = 1 + sum!;
+      count = count! + 1;
     }
+    products_numbers![index] = products_numbers![index]! + 1;
+    print("My index is ${index}");
+    buy![index] = true;
+    if (buy![index] == true) {
+      isbuy.add(products[index - 1]);
+    }
+    // }
 
     emit(GetHomeDataSuccessState());
   }
 
-  void decreasIcon(int id) {
-    if (products_numbers![id]! > 0) {
-      products_numbers![id] = products_numbers![id]! - 1;
-      sum = sum! - 1;
-      buy![id - 1] = false;
-      if (buy![id - 1] == false) {
-        isbuy.removeAt(id - 1);
+  void removeData(int id) {
+
+    print("***********************");
+    print("${id}");
+    print("${isbuy[id]}");
+    print("${isbuy[id]["id"]}");
+    print("***********************");
+
+    for (int i = 0; i < products.length; i++) {
+      if (products[i]["id"] == isbuy[id]["id"]) {
+        isbuy.removeAt(id);
+        sum = sum! - 1;
+        products_numbers?[i+1] = products_numbers![i+1]! - 1;
+            emit(GetHomeDataSuccessState());
+
+        print("internal");
       }
     }
+    
 
     emit(GetHomeDataSuccessState());
+    
   }
+
+  
 
   List<Image> borderImage = [
     Image(image: AssetImage("assets/border1.png")),

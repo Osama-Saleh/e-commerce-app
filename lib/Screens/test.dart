@@ -26,14 +26,14 @@ class _TestScreenState extends State<TestScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: TextButton(
-              onPressed: () {
-                print("Another Screen ${HomeCubit.get(context).isbuy.length}");
-              },
-              child: Text("Data"),
-            ),
-          ),
+          body: SingleChildScrollView(
+              child: Column(
+            children: [
+              Container(
+                height: 200,
+              )
+            ],
+          )),
         );
       },
     );

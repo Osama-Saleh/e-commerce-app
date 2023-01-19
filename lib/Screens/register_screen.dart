@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, missing_required_param, sized_box_for_whitespace, avoid_print
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerceapp/Screens/home_screen.dart';
 import 'package:ecommerceapp/Screens/login_screen.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/cubit/home_cubit.dart';
@@ -112,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 50,
+                          height: 100,
                         ),
                         Text(
                           """Creat \nAccount""",
@@ -122,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               .copyWith(fontSize: 50),
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 100,
                         ),
                         Expanded(
                           child: Padding(
@@ -132,63 +133,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  myTextFormField(
-                                    controller: nameController,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Enter Your Name";
-                                      }
-                                      return null;
-                                    },
-                                    hintText: "Name",
-                                    // fillColor: Colors.white,
-                                    // filled: true,
-                                    prefixIcon: Icon(Icons.person),
-                                    keyboardType: TextInputType.emailAddress,
+                                  Expanded(
+                                    child: myTextFormField(
+                                      controller: nameController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Enter Your Name";
+                                        }
+                                        return null;
+                                      },
+                                      hintText: "Name",
+                                      // fillColor: Colors.white,
+                                      // filled: true,
+                                      prefixIcon: Icon(Icons.person),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                   ),
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  myTextFormField(
-                                    controller: emailController,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Enter Your mail";
-                                      }
-                                      return null;
-                                    },
-                                    hintText: "Email",
-                                    // fillColor: Colors.white,
-                                    // filled: true,
-                                    prefixIcon: Icon(Icons.email),
-                                    keyboardType: TextInputType.emailAddress,
+                                  Expanded(
+                                    child: myTextFormField(
+                                      controller: emailController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Enter Your mail";
+                                        }
+                                        return null;
+                                      },
+                                      hintText: "Email",
+                                      // fillColor: Colors.white,
+                                      // filled: true,
+                                      prefixIcon: Icon(Icons.email),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                   ),
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  myTextFormField(
-                                    controller: passwordController,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Enter Your Password";
-                                      }
-                                      return null;
-                                    },
-                                    // fillColor: Colors.white,
-                                    // filled: true,
-                                    hintText: "Password",
-                                    obscureText: isvasible,
-                                    prefixIcon: Icon(Icons.lock),
-                                    suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isvasible = !isvasible;
-                                          });
-                                        },
-                                        icon: isvasible
-                                            ? Icon(Icons.visibility_off)
-                                            : Icon(Icons.visibility)),
-                                    keyboardType: TextInputType.emailAddress,
+                                  Expanded(
+                                    child: myTextFormField(
+                                      controller: passwordController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Enter Your Password";
+                                        }
+                                        return null;
+                                      },
+                                      // fillColor: Colors.white,
+                                      // filled: true,
+                                      hintText: "Password",
+                                      obscureText: isvasible,
+                                      prefixIcon: Icon(Icons.lock),
+                                      suffixIcon: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isvasible = !isvasible;
+                                            });
+                                          },
+                                          icon: isvasible
+                                              ? Icon(Icons.visibility_off)
+                                              : Icon(Icons.visibility)),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -245,28 +252,90 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         child: CircularProgressIndicator()),
                                   ),
 
-                                  SizedBox(
-                                    height: 5,
+                                  // Spacer(),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 1,
+                                          width: 50,
+                                          color: kPrimaryColor,
+                                        ),
+                                        Text(
+                                          " or ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                        Container(
+                                          height: 1,
+                                          width: 50,
+                                          color: kPrimaryColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // SizedBox(
+                                  //   height: 50,
+                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            HomeCubit.get(context)
+                                                .signInWithFacebook();
+                                            // Navigator.pushReplacement(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           HomeScreen(),
+                                            //     ));
+                                          },
+                                          child: CircleAvatar(
+                                            radius: 28,
+                                            backgroundImage: AssetImage(
+                                                "assets/facebooc.png"),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            HomeCubit.get(context)
+                                                .signInWithGoogle();
+                                          },
+                                          child: CircleAvatar(
+                                            radius: 25,
+                                            backgroundColor: Colors.transparent,
+                                            backgroundImage:
+                                                AssetImage("assets/mail.png"),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        height: 1,
-                                        width: 50,
-                                        color: kPrimaryColor,
-                                      ),
-                                      Text(
-                                        " or ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6,
-                                      ),
-                                      Container(
-                                        height: 1,
-                                        width: 50,
-                                        color: kPrimaryColor,
-                                      ),
+                                      Text("Already Have Account"),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LoginScreen(),
+                                                ));
+                                          },
+                                          child: Text("Sign in"))
                                     ],
                                   )
                                 ],

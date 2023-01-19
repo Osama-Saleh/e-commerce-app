@@ -47,8 +47,9 @@ Widget buildBuyItems(context) {
                     child: Image(
                       image: NetworkImage(
                           "${HomeCubit.get(context).isbuy[index]["image"]}"),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       height: 100,
+                      width: 100,
                     ),
                   ),
                   Column(
@@ -74,7 +75,10 @@ Widget buildBuyItems(context) {
                     child: CircleAvatar(
                         backgroundColor: Colors.red,
                         child: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.close))),
+                            onPressed: () {
+                              HomeCubit.get(context).removeData(index);
+                            },
+                            icon: Icon(Icons.close))),
                   )
                 ],
               );

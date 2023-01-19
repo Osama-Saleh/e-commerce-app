@@ -30,8 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       create: (context) => HomeCubit(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {
-          if (state is SigninSuccessState ) {
-            
+          if (state is SigninSuccessState) {
             SharedPreference.saveData(Key: "uid", value: "${state.uid}")
                 .then((value) => {
                       Fluttertoast.showToast(

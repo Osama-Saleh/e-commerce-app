@@ -85,8 +85,8 @@ class IncreasSuccessState extends HomeStates {}
 
 class IncreasErrorState extends HomeStates {}
 
-class DecreasSuccessState extends HomeStates {}
+class RemoveBuySuccessState extends HomeStates {}
 
-class DecreasErrorState extends HomeStates {}
+class RemoveBuyErrorState extends HomeStates {}
 
 class BorderScreenState extends HomeStates {}

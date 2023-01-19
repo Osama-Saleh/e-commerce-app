@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, avoid_print, must_be_immutable, curly_braces_in_flow_control_structures, unused_local_variable
 
 import 'package:ecommerceapp/Screens/border_screen.dart';
+import 'package:ecommerceapp/Screens/register_screen.dart';
+import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/Screens/home_screen.dart';
 import 'package:ecommerceapp/Screens/login_screen.dart';
@@ -45,8 +47,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit()
-      ..getUserData()
-      ..getHomeData(),
+        ..getUserData()
+        ..getHomeData(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
         builder: (context, state) {
