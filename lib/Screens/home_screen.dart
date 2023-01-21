@@ -308,7 +308,8 @@ Widget buidItems(context) => SingleChildScrollView(
         ),
       ),
     );
-
+var nameContller = TextEditingController();
+var formKey = GlobalKey<FormState>();
 Widget myDrawer(context, UserModel? model) {
   return Drawer(
       child: Column(
@@ -381,6 +382,74 @@ Widget myDrawer(context, UserModel? model) {
                         color: Colors.black,
                         fontWeight: FontWeight.bold))
               ],
+            ),
+          )
+        ],
+      ),
+            SizedBox(
+        height: 10,
+      ),
+      Row(
+        children: [
+          Text("Your Name : ${HomeCubit.get(context).userModel!.name}"),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ButtonTheme(
+              height: 100.0,
+              minWidth: 200,
+              child: OutlinedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      content: Form(
+                        key: formKey,
+                        child: myTextFormField(
+                          controller: nameContller,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Enter Your Name";
+                            }
+                            return null;
+                          },
+                          hintText: "Edit Your Name",
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.red)),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Cancle")),
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.green)),
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    HomeCubit.get(context).updateUserData(
+                                      name: nameContller.text,
+                                    );
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Text("Edit")),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+                child: Icon(Icons.edit),
+              ),
             ),
           )
         ],

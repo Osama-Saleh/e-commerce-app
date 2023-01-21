@@ -3,6 +3,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerceapp/Screens/bought_Screen.dart';
+import 'package:ecommerceapp/Screens/home_screen.dart';
 import 'package:ecommerceapp/components/components.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
 import 'package:ecommerceapp/dio_helper/dio_helper.dart';
@@ -14,11 +16,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(HomeInitState());
 
   static HomeCubit get(context) => BlocProvider.of(context);
+
+  int currentIndex = 0;
+
+  List<Widget> buttomBarScreens = [
+    HomeScreen(),
+    BoughtScreen(),
+  ];
+
+  void changeButtomBar(int index) {
+    currentIndex = index;
+    // emit(ChangebuttonBarState());
+    emit(GetHomeDataSuccessState());
+  }
 
   void userRegisteData({
     @required String? name,
@@ -156,7 +172,8 @@ class HomeCubit extends Cubit<HomeStates> {
       print("getUserData ${userModel!.uid}");
       print("My Name ${userModel!.name}");
 
-      emit(GetUserDataSuccessState());
+      emit(GetHomeDataSuccessState());
+      // emit(GetUserDataSuccessState());
       print("GetUserDataSuccessState");
     }).catchError((onError) {
       emit(GetUserDataErrorState());
@@ -263,7 +280,7 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(UpdateUserDataLoadinState());
     print("UpdateUserDataLoadinState");
     UserModel model = UserModel(
-      name: userModel!.name,
+      name: name ?? userModel!.name,
       profileImage: profileImage ?? userModel!.profileImage,
       coverImage: coverImage ?? userModel!.coverImage,
       email: userModel!.email,
@@ -330,7 +347,6 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   void removeData(int id) {
-
     print("***********************");
     print("${id}");
     print("${isbuy[id]}");
@@ -341,22 +357,19 @@ class HomeCubit extends Cubit<HomeStates> {
       if (products[i]["id"] == isbuy[id]["id"]) {
         isbuy.removeAt(id);
         sum = sum! - 1;
-        products_numbers?[i+1] = products_numbers![i+1]! - 1;
-            emit(GetHomeDataSuccessState());
+        products_numbers?[i + 1] = products_numbers![i + 1]! - 1;
+        emit(GetHomeDataSuccessState());
 
         print("internal");
       }
     }
-    
 
     emit(GetHomeDataSuccessState());
-    
   }
 
-  
-
-  List<Image> borderImage = [
-    Image(image: AssetImage("assets/border1.png")),
+  List borderImage = [
+    // Image(image: AssetImage("assets/border1.png")),
+    Lottie.asset("assets/shopping1.json"),
     Image(image: AssetImage("assets/border3.png")),
     Image(image: AssetImage("assets/border2.png")),
   ];

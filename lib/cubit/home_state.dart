@@ -90,3 +90,4 @@ class RemoveBuySuccessState extends HomeStates {}
 class RemoveBuyErrorState extends HomeStates {}
 
 class BorderScreenState extends HomeStates {}
+class ChangebuttonBarState extends HomeStates {}

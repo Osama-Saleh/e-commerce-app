@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, avoid_print, must_be_immutable, curly_braces_in_flow_control_structures, unused_local_variable
 
 import 'package:ecommerceapp/Screens/border_screen.dart';
+import 'package:ecommerceapp/Screens/bottombar.dart';
 import 'package:ecommerceapp/Screens/register_screen.dart';
 import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/components/components.dart';
@@ -26,13 +27,18 @@ void main() async {
   print("My uid is  ${uid}");
   print("onBorder  ${onBorder}");
   Widget? firstWidget;
+  // if (onBorder == true) {
+  //   firstWidget = LoginScreen();
+  // }
+
   if (onBorder == true) {
     firstWidget = LoginScreen();
+    if (uid != null) {
+      firstWidget = ButtomBarScreen();
+    }
+  } else {
+    firstWidget = BorderScreen();
   }
-
-  if (uid != null) {
-    firstWidget = HomeScreen();
-  } else if (uid == null) firstWidget = LoginScreen();
 
   runApp(MyApp(
     firstWidget: firstWidget,
