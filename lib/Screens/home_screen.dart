@@ -391,7 +391,7 @@ Widget myDrawer(context, UserModel? model) {
       ),
       Row(
         children: [
-          Text("Your Name : ${HomeCubit.get(context).userModel!.name}"),
+          Text("Your Name : ${HomeCubit.get(context).userModel?.name}"),
           Spacer(),
           Padding(
             padding: const EdgeInsets.all(8.0),

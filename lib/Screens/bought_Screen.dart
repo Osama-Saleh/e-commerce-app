@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, file_names, sized_box_for_whitespace
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerceapp/Screens/border_screen.dart';
 import 'package:ecommerceapp/Screens/test.dart';
 import 'package:ecommerceapp/cubit/home_cubit.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
+import 'package:ecommerceapp/payment/paymob_regester.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +39,8 @@ Widget buildBuyItems(context) {
     child: Column(
       children: [
         Expanded(
+          // color: Colors.red,
+          // height: 100,
           child: ListView.separated(
             itemBuilder: (context, index) {
               return Row(
@@ -88,6 +92,30 @@ Widget buildBuyItems(context) {
               height: 1,
             ),
             itemCount: HomeCubit.get(context).isbuy.length,
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height / 9,
+          width: MediaQuery.of(context).size.width / 2,
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: MaterialButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PayMobRegisterScreen(),
+                  ));
+            },
+            child: Text("BUY"),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20.0),
+              ),
+              // side: BorderSide(color: Colors.black)
+            ),
           ),
         )
       ],

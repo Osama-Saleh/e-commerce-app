@@ -10,6 +10,8 @@ import 'package:ecommerceapp/Screens/login_screen.dart';
 import 'package:ecommerceapp/cubit/home_cubit.dart';
 import 'package:ecommerceapp/cubit/home_state.dart';
 import 'package:ecommerceapp/dio_helper/dio_helper.dart';
+import 'package:ecommerceapp/payment/toggel_screen.dart';
+import 'package:ecommerceapp/payment/visa_screen.dart';
 import 'package:ecommerceapp/shared/shared_preference.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await DioHelper.Init();
+  await DioHelper.intDioPayMob();
   await SharedPreference.initialSharedPreference();
 
   bool? onBorder = await SharedPreference.getDataBl(key: "onBorder");

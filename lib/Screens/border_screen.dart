@@ -74,12 +74,12 @@ class BorderScreen extends StatelessWidget {
                 effect: SlideEffect(
                     spacing: 8.0,
                     // radius: 2.0,
-                    dotWidth: 24.0,
-                    dotHeight: 16.0,
+                    // dotWidth: 24.0,
+                    // dotHeight: 16.0,
                     paintStyle: PaintingStyle.stroke,
                     strokeWidth: 1.5,
                     dotColor: Colors.grey,
-                    activeDotColor: Colors.indigo),
+                    activeDotColor: Color.fromARGB(255, 252, 101, 13)),
               ),
               SizedBox(
                 height: 15,
@@ -113,8 +113,8 @@ class BorderScreen extends StatelessWidget {
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             )),
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.indigo)),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 248, 106, 12))),
                         child: Text(
                           "Next",
                           style: TextStyle(fontSize: 25),

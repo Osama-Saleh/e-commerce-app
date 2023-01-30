@@ -93,7 +93,8 @@ class HomeCubit extends Cubit<HomeStates> {
         print(value.user!.uid);
         uid = value.user!.uid;
         emit(SigninSuccessState(uid: uid));
-
+        // NEW
+        getHomeData();
         print("SigninSuccessState");
       }).catchError((onError) {
         print("SigninErrorState ${onError.toString()}");
@@ -370,8 +371,8 @@ class HomeCubit extends Cubit<HomeStates> {
   List borderImage = [
     // Image(image: AssetImage("assets/border1.png")),
     Lottie.asset("assets/shopping1.json"),
-    Image(image: AssetImage("assets/border3.png")),
-    Image(image: AssetImage("assets/border2.png")),
+    Lottie.asset("assets/shopping2.json"),
+    Lottie.asset("assets/shopping3.json"),
   ];
   bool islast = false;
   void borderScreen(index) {
