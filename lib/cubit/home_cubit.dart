@@ -172,9 +172,10 @@ class HomeCubit extends Cubit<HomeStates> {
       userModel = UserModel.fromJson(value.data()!);
       print("getUserData ${userModel!.uid}");
       print("My Name ${userModel!.name}");
+      print("User Data Is : ${value.data()}");
 
+      emit(GetUserDataSuccessState());
       emit(GetHomeDataSuccessState());
-      // emit(GetUserDataSuccessState());
       print("GetUserDataSuccessState");
     }).catchError((onError) {
       emit(GetUserDataErrorState());
@@ -261,9 +262,9 @@ class HomeCubit extends Cubit<HomeStates> {
       value.ref.getDownloadURL().then((value) {
         //URL HTTP
         print("My Image 2 ${value}");
-        updateUserData(name: name, coverImage: value);
         emit(UploadCoverImageSuccessState());
         print("UploadCoverImageSuccessState");
+        updateUserData(name: name, coverImage: value);
       }).catchError((Error) {
         print("getDownloadURLError ${Error}");
       });
@@ -273,21 +274,22 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  void updateUserData({
+  Future<void> updateUserData({
     @required String? name,
     @required String? profileImage,
     @required String? coverImage,
-  }) {
+  }) async {
     emit(UpdateUserDataLoadinState());
     print("UpdateUserDataLoadinState");
     UserModel model = UserModel(
       name: name ?? userModel!.name,
+      email: userModel!.email,
       profileImage: profileImage ?? userModel!.profileImage,
       coverImage: coverImage ?? userModel!.coverImage,
-      email: userModel!.email,
       password: userModel!.password,
       uid: userModel!.uid,
     );
+    print("${model.name}");
     FirebaseFirestore.instance
         .collection("Users")
         .doc(uid)

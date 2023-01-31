@@ -75,15 +75,16 @@ Widget buildBuyItems(context) {
                     ],
                   ),
                   Spacer(),
-                  Expanded(
-                    child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        child: IconButton(
-                            onPressed: () {
-                              HomeCubit.get(context).removeData(index);
-                            },
-                            icon: Icon(Icons.close))),
-                  )
+                  CircleAvatar(
+                      backgroundColor: Colors.red,
+                      child: IconButton(
+                          onPressed: () {
+                            HomeCubit.get(context).removeData(index);
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            // size: 23,
+                          )))
                 ],
               );
             },

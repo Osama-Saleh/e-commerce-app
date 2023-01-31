@@ -11,13 +11,16 @@ import 'package:ecommerceapp/module/user_model.dart';
 import 'package:ecommerceapp/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return
+        // BlocProvider(
+        // create: (context) => HomeCubit(),
+        // child:
+        BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
@@ -63,6 +66,7 @@ class HomeScreen extends StatelessWidget {
             drawer: myDrawer(context, HomeCubit.get(context).userModel));
       },
     );
+    // );
   }
 }
 
@@ -293,7 +297,7 @@ Widget buidItems(context) => SingleChildScrollView(
                                       child: Center(
                                           child: Text(
                                               "${HomeCubit.get(context).products_numbers![product["id"]]}")),
-                                    ),  
+                                    ),
                                   ),
                                 ],
                               ),
@@ -308,7 +312,7 @@ Widget buidItems(context) => SingleChildScrollView(
         ),
       ),
     );
-var nameContller = TextEditingController();
+var nameController = TextEditingController();
 var formKey = GlobalKey<FormState>();
 Widget myDrawer(context, UserModel? model) {
   return Drawer(
@@ -386,7 +390,7 @@ Widget myDrawer(context, UserModel? model) {
           )
         ],
       ),
-            SizedBox(
+      SizedBox(
         height: 10,
       ),
       Row(
@@ -406,7 +410,7 @@ Widget myDrawer(context, UserModel? model) {
                       content: Form(
                         key: formKey,
                         child: myTextFormField(
-                          controller: nameContller,
+                          controller: nameController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Enter Your Name";
@@ -436,7 +440,9 @@ Widget myDrawer(context, UserModel? model) {
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     HomeCubit.get(context).updateUserData(
-                                      name: nameContller.text,
+                                      name: nameController.text,
+                                      // coverImage: model!.coverImage,
+                                      // profileImage: model.profileImage,
                                     );
                                     Navigator.pop(context);
                                   }

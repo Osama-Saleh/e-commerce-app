@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               .copyWith(fontSize: 50),
                         ),
                         SizedBox(
-                          height: 100,
+                          height: 70,
                         ),
                         Expanded(
                           child: Padding(
@@ -134,6 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
+                                    flex: 2,
                                     child: myTextFormField(
                                       controller: nameController,
                                       validator: (value) {
@@ -150,9 +151,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   Expanded(
+                                    flex: 2,
                                     child: myTextFormField(
                                       controller: emailController,
                                       validator: (value) {
@@ -169,9 +171,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   Expanded(
+                                    flex: 2,
                                     child: myTextFormField(
                                       controller: passwordController,
                                       validator: (value) {
@@ -198,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   // if (state is RegisterLoadingState)
                                   //   Center(child: CircularProgressIndicator()),
